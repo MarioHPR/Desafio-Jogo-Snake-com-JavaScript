@@ -1,7 +1,10 @@
 let canvas  = document.getElementById("snake");
+let p = document.getElementById("pont");
 let context = canvas.getContext("2d");
 let box = 32;
 let snake = [];
+let pontuacao = 0;
+let time = 200;
 snake[0] = {
     x : 8 * box,
     y : 8 * box
@@ -46,10 +49,18 @@ document.addEventListener('keydown', update);
 
 function iniciarJogo() {
 
-    if (snake[0].x < 0 && direction == "left") snake[0].x = 16 * box;
-    if (snake[0].y < 0 && direction == "up"  ) snake[0].y = 16 * box;
+    if (snake[0].x < 0 && direction == "left") snake[0].x = 15 * box;
+    if (snake[0].y < 0 && direction == "up"  ) snake[0].y = 15 * box;
     if (snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
     if (snake[0].y > 15 * box && direction == "down" ) snake[0].y = 0;
+
+    for(let i = 1 ; i < snake.length ; i++ ){
+        if(snake[0].x == snake[i].x && snake[0].y == snake[i].y){
+            clearInterval(jogo);
+            alert(`Game Over! Tente novamente. Você fez ${pontuacao} pontos`);
+            document.location.reload(true);
+        }
+    }
 
     criarBG();
     criarSnake();
@@ -69,6 +80,8 @@ function iniciarJogo() {
     else{
         food.x = sortear();
         food.y = sortear();
+        ++pontuacao;
+        p.innerHTML = pontuacao;
     }
 
     let newHead = {
@@ -79,4 +92,4 @@ function iniciarJogo() {
     snake.unshift(newHead);
 }
 
-let jogo = setInterval(iniciarJogo, 100);
+let jogo = setInterval(iniciarJogo, time);
