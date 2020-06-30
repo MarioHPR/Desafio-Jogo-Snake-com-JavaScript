@@ -8,9 +8,14 @@ snake[0] = {
 }
 
 let direction = "right";
+
+function sortear() {
+    return Math.floor(Math.random() * 15 + 1) * box;
+}
+
 let food = {
-    x : Math.floor(Math.random() * 15 + 1) * box,
-    y : Math.floor(Math.random() * 15 + 1) * box
+    x : sortear(),
+    y : sortear()
 }
 
 function criarBG() {
@@ -58,7 +63,13 @@ function iniciarJogo() {
     if (direction == "down") snakeY += box;
     if (direction == "up"  ) snakeY -= box;
 
-    snake.pop();
+    if(snakeX != food.x || snakeY != food.y){
+        snake.pop();
+    }
+    else{
+        food.x = sortear();
+        food.y = sortear();
+    }
 
     let newHead = {
         x : snakeX,
